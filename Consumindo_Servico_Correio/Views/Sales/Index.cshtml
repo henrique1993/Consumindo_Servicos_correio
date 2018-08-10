@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnSend").click(function () {
+            $.ajax({
+                url: '@Url.Action("CorreiosCalc", "Sales")',
+                type: "GET",
+                contentType: "application/json",
+                data: { cep: $("#txtCep").val() },
+                success: function (result) {
+                    $("#divValor").html("<label> <b>Valor:</b> " + result[0] + "R$    <b>Prazo de entrega:</b> " + result[1] + " dias</label>")
+                },
+                error: function (xhr, exception) {
+                    alert("Erro ao calcular prazo!")
+                }
+            });
+        })
+    });
+</script>
+<div class="jumbotron ">
+    <h2>Vendas Correio</h2>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.TextBox("txtCep", null, new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success" id="btnSend">Consultar</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" id="divValor">
+
+        </div>
+    </div>
+</div>
